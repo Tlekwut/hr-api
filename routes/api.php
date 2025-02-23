@@ -19,13 +19,13 @@ Route::get('/', function () {
     return response()->json(['message' => 'API is working!']);
 });
 
-Route::post('register', [AuthController::class, 'register']);
+
 Route::post('login', [AuthController::class, 'authLogin']);
 
 Route::middleware('auth:api')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
     Route::post('/login/pin', [AuthController::class, 'loginWithPin']);
-    Route::post('/update-profile', [AuthController::class, 'updateProfile']);
-    Route::post('/update-pin', [AuthController::class, 'updatePin']);
-    Route::get('user', [AuthController::class, 'getUser']);
+    Route::put('/update-profile', [AuthController::class, 'updateProfile']);
+    Route::put('/update-pin', [AuthController::class, 'updatePin']);
     Route::post('logout', [AuthController::class, 'logout']);
 });
