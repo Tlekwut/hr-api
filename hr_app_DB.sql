@@ -25,10 +25,10 @@ DROP TABLE IF EXISTS `auth_logs`;
 CREATE TABLE `auth_logs` (
   `log_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `employee_id` int NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`log_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `auth_logs` (
 
 LOCK TABLES `auth_logs` WRITE;
 /*!40000 ALTER TABLE `auth_logs` DISABLE KEYS */;
+INSERT INTO `auth_logs` VALUES (1,680002,'success','2025-02-23 05:24:07');
 /*!40000 ALTER TABLE `auth_logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,7 +72,7 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES ('680001','Wuttichai Aektasang','tlek@gmail.com','081234567','811',0,'$2y$12$gz.dy4acS2eud6BhQEmd.ehy./3Sj2hn0EszdmYMuo7Vo90dsZ2Im',0,'$2y$12$XCNAe2Tt9HItnGtajXzCHOvxp2..Fz.T5/DrN./UgN0UbAJn.MP4.','active','2025-02-22 05:35:30','2025-02-22 08:31:28'),('680002','T\'Lek Wuttichai','T@gmail.com','081234567','877',0,'$2y$12$hRmZXU1pf9WHhNYF7mCdq.IsQzFqZCbGim6Pg1b9hSLuaWw6xbfmm',1,'$2y$12$Z923p1hF.j1XnuL9AbHXO.EJuPzggar.5EO4D22ooBKeaRr6elhWW','active','2025-02-22 08:37:28','2025-02-22 08:40:02');
+INSERT INTO `employees` VALUES ('680001','Wuttichai Aektasang','tlek@gmail.com','081234567','811',0,'$2y$12$gz.dy4acS2eud6BhQEmd.ehy./3Sj2hn0EszdmYMuo7Vo90dsZ2Im',0,'$2y$12$XCNAe2Tt9HItnGtajXzCHOvxp2..Fz.T5/DrN./UgN0UbAJn.MP4.','active','2025-02-22 05:35:30','2025-02-22 08:31:28'),('680002','T\'Lek Wuttichai','t@email.com','084-5821222','9854',0,'$2y$12$5tY40IpXFnPzNLe7NPrZue4FghPaAEukJNBOKW/wep4/3XSbwngBC',0,'$2y$12$jM/u6NlgASNnNp3uzjAlYu4cDigPzezJ8wmYDukRczxDWuStneM.C','active','2025-02-22 08:37:28','2025-02-22 21:04:13');
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,4 +256,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-23  0:04:02
+-- Dump completed on 2025-02-23 12:24:57

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('auth_logs', function (Blueprint $table) {
             $table->id('log_id');
             $table->integer('employee_id')->nullable(false);
-            $table->string('token')->nullable(false);
+            $table->string('status')->nullable(false);
             $table->timestamp('timestamp')->useCurrent();
         });
     }

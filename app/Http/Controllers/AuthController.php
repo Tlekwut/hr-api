@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Models\AuthLog;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Stmt\TryCatch;
@@ -52,13 +53,45 @@ class AuthController extends Controller
                 'password' => 'required|string|min:6',
             ]);
 
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'Invalid credentials'], 400);
+            $employee = Employee::where('employee_id', $credentials['employee_id'])->first();
+
+            if (!$employee) {
+                AuthLog::create([
+                    'employee_id' => $credentials['employee_id'],
+                    'status' => 'failed'
+                ]);
+                return response()->json(['error' => 'User not found'], 404);
+            }
+            if (!Hash::check($credentials['password'], $employee->password)) {
+                AuthLog::create([
+                    'employee_id' => $credentials['employee_id'],
+                    'status' => 'failed'
+                ]);
+                return response()->json(['error' => 'Incorrect password'], 401);
             }
 
-            return response()->json(['token' => $token], 200);
+            try {
+                $token = JWTAuth::fromUser($employee);
+            } catch (\Throwable $th) {
+                return response()->json(['error' => 'Could not create token: ' . $th->getMessage()], 500);
+            }
+
+            AuthLog::create([
+                'employee_id' => $employee->employee_id,
+                'status' => 'success'
+            ]);
+
+            return response()->json([
+                'token' => $token,
+                'user' => [
+                    'employee_id' => $employee->employee_id,
+                    'name' => $employee->name,
+                    'points' => $employee->points,
+                    'first_login' => $employee->first_login
+                ]
+            ], 200);
         } catch (\Throwable $th) {
-            return response()->json(['error' =>  $th->getMessage()], 500);
+            return response()->json(['error' => 'Error function: ' . $th->getMessage()], 500);
         }
     }
 
@@ -151,7 +184,4 @@ class AuthController extends Controller
             return response()->json(['error' => $th->getMessage()], 500);
         }
     }
-    
-
-    
 }
